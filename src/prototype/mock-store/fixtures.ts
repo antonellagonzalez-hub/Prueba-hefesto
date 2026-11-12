@@ -1,0 +1,271 @@
+import type { MockEntityRecord } from "./mock-store";
+
+export type Fixtures = {
+  datasetVersion: number;
+  entities: Record<string, MockEntityRecord[]>;
+};
+
+/**
+ * Datos sintéticos, deterministas y revisables en PR. Sin Math.random(),
+ * Date.now() ni new Date(). Usa contexto chileno (es-CL, RUT con K mayúscula,
+ * teléfonos +56, fechas ISO, CLP entero, correos example.com).
+ *
+ * Cubre: carpetas con documentos en los cuatro estados (procesando, por
+ * revisar, sirve, no sirve con y sin reemplazo pedido), un resumen editado a
+ * mano y un cliente sin documentos (carpeta vacía).
+ */
+export const fixtures: Fixtures = {
+  datasetVersion: 1,
+  entities: {
+    cliente: [
+      {
+        id: "cli-1",
+        nombre: "María José Contreras Vidal",
+        rut: "15.482.337-K",
+        materia: "Despido injustificado",
+        correo: "mj.contreras@example.com",
+      },
+      {
+        id: "cli-2",
+        nombre: "Rodrigo Fuentes Lagos",
+        rut: "12.904.551-3",
+        materia: "Cobranza de deuda",
+        correo: "rodrigo.fuentes@example.com",
+      },
+      {
+        id: "cli-3",
+        nombre: "Camila Soto Herrera",
+        rut: "18.223.640-7",
+        materia: "Negligencia médica",
+        correo: "camila.soto@example.com",
+      },
+      {
+        id: "cli-4",
+        nombre: "Patricio Muñoz Araya",
+        rut: "9.871.204-5",
+        materia: "Despido injustificado",
+        correo: "pmunoz@example.com",
+      },
+      {
+        id: "cli-5",
+        nombre: "Fernanda Rojas Pizarro",
+        rut: "16.735.982-1",
+        materia: "Pensión de alimentos",
+        correo: "fernanda.rojas@example.com",
+      },
+    ],
+    documento: [
+      {
+        id: "doc-1",
+        clienteId: "cli-1",
+        nombre: "Contrato_trabajo_Constructora_Andes.pdf",
+        tipoDocumento: "contratoTrabajo",
+        formato: "pdf",
+        tamanoKb: 842,
+        subidoEn: "2026-11-10T09:14:00-03:00",
+        subidoPor: "Javiera Morales",
+        estadoRevision: "sirve",
+        resumen:
+          "Contrato indefinido como administrativa contable con Constructora Andes SpA. Jornada de 44 horas semanales y remuneración bruta de $980.000 más gratificación legal. Incluye cláusula de confidencialidad, sin pacto de no competencia.",
+        datosClave:
+          "Empleador: Constructora Andes SpA (76.432.118-4)\nCargo: Administrativa contable\nInicio: 01-03-2021\nTipo de contrato: Indefinido\nSueldo bruto: $980.000",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+        revisadoPor: "Javiera Morales",
+        revisadoEn: "2026-11-10T10:02:00-03:00",
+      },
+      {
+        id: "doc-2",
+        clienteId: "cli-1",
+        nombre: "Carta_despido_oct2026.jpg",
+        tipoDocumento: "cartaDespido",
+        formato: "jpg",
+        tamanoKb: 1310,
+        subidoEn: "2026-11-10T09:15:00-03:00",
+        subidoPor: "Javiera Morales",
+        estadoRevision: "porRevisar",
+        resumen:
+          "Carta de despido por necesidades de la empresa (art. 161 del Código del Trabajo). Aviso con 2 días de anticipación, por lo que corresponde indemnización sustitutiva del aviso previo. No detalla los hechos que fundan la causal.",
+        datosClave:
+          "Causal: Art. 161, necesidades de la empresa\nFecha de la carta: 28-10-2026\nTérmino efectivo: 31-10-2026\nAviso previo: No cumplido (2 días)\nFirma: Gerente de Personas",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+      {
+        id: "doc-3",
+        clienteId: "cli-1",
+        nombre: "Liquidaciones_jul-sep.pdf",
+        tipoDocumento: "liquidacionSueldo",
+        formato: "pdf",
+        tamanoKb: 512,
+        subidoEn: "2026-11-11T16:40:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "porRevisar",
+        resumen:
+          "Tres liquidaciones de sueldo (julio a septiembre 2026). Sueldo líquido promedio de $812.430. En agosto aparece un descuento de $120.000 sin glosa que conviene revisar.",
+        datosClave:
+          "Período: Jul–Sep 2026\nLíquido promedio: $812.430\nImponible promedio: $1.024.900\nAlerta: Descuento sin glosa en agosto ($120.000)",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+      {
+        id: "doc-4",
+        clienteId: "cli-1",
+        nombre: "Cedula_identidad.jpg",
+        tipoDocumento: "cedulaIdentidad",
+        formato: "jpg",
+        tamanoKb: 388,
+        subidoEn: "2026-11-11T16:41:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "noSirve",
+        resumen:
+          "Fotografía de cédula de identidad por un solo lado. El reverso no fue incluido y la imagen está parcialmente desenfocada.",
+        datosClave: "Lado: Anverso\nVigencia: No legible",
+        resumenEditado: false,
+        motivoRechazo: "incompleto",
+        notaRechazo: "Falta el reverso; la foto del anverso está desenfocada.",
+        reemplazoSolicitado: true,
+        revisadoPor: "Tomás Reyes",
+        revisadoEn: "2026-11-11T17:05:00-03:00",
+      },
+      {
+        id: "doc-5",
+        clienteId: "cli-2",
+        nombre: "Pagare_Banco_Austral.pdf",
+        tipoDocumento: "contratoCredito",
+        formato: "pdf",
+        tamanoKb: 1204,
+        subidoEn: "2026-11-09T11:20:00-03:00",
+        subidoPor: "Javiera Morales",
+        estadoRevision: "sirve",
+        resumen:
+          "Pagaré suscrito con Banco Austral por un crédito de consumo. La última cuota pagada fue en marzo de 2023: la acción de cobro podría estar prescrita (art. 98 Ley 18.092). Revisar si hubo gestiones que interrumpan la prescripción.",
+        datosClave:
+          "Acreedor: Banco Austral S.A.\nMonto original: $4.500.000\nSaldo reclamado: $3.218.760\nÚltimo pago: 15-03-2023\nAlerta: Posible prescripción",
+        resumenEditado: true,
+        reemplazoSolicitado: false,
+        revisadoPor: "Javiera Morales",
+        revisadoEn: "2026-11-09T12:10:00-03:00",
+      },
+      {
+        id: "doc-6",
+        clienteId: "cli-2",
+        nombre: "Notificacion_cobranza.pdf",
+        tipoDocumento: "certificado",
+        formato: "pdf",
+        tamanoKb: 214,
+        subidoEn: "2026-11-12T08:55:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "porRevisar",
+        resumen:
+          "Carta de cobranza extrajudicial de Recupera Ltda. en representación de Banco Austral. Exige el pago total en 10 días y menciona intereses no detallados.",
+        datosClave:
+          "Emisor: Recupera Ltda.\nFecha: 04-11-2026\nMonto exigido: $3.890.200\nPlazo: 10 días",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+      {
+        id: "doc-7",
+        clienteId: "cli-2",
+        nombre: "Pagare_Banco_Austral (1).pdf",
+        tipoDocumento: "contratoCredito",
+        formato: "pdf",
+        tamanoKb: 1204,
+        subidoEn: "2026-11-12T08:56:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "noSirve",
+        resumen: "Copia idéntica del pagaré con Banco Austral ya cargado en la carpeta.",
+        datosClave: "Acreedor: Banco Austral S.A.\nMonto original: $4.500.000",
+        resumenEditado: false,
+        motivoRechazo: "duplicado",
+        reemplazoSolicitado: false,
+        revisadoPor: "Tomás Reyes",
+        revisadoEn: "2026-11-12T09:01:00-03:00",
+      },
+      {
+        id: "doc-8",
+        clienteId: "cli-3",
+        nombre: "Ficha_clinica_Hospital_Regional.pdf",
+        tipoDocumento: "fichaMedica",
+        formato: "pdf",
+        tamanoKb: 3150,
+        subidoEn: "2026-11-11T10:05:00-03:00",
+        subidoPor: "Javiera Morales",
+        estadoRevision: "porRevisar",
+        resumen:
+          "Ficha clínica de hospitalización por apendicitis. Entre el ingreso y la cirugía pasaron 19 horas; el registro de enfermería anota dolor creciente sin reevaluación médica durante 8 horas.",
+        datosClave:
+          "Centro: Hospital Regional de Rancagua\nIngreso: 02-08-2026 22:40\nCirugía: 03-08-2026 17:55\nDiagnóstico: Apendicitis perforada\nAlerta: 8 h sin reevaluación médica",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+      {
+        id: "doc-9",
+        clienteId: "cli-3",
+        nombre: "Boleta_clinica.png",
+        tipoDocumento: "boletaFactura",
+        formato: "png",
+        tamanoKb: 96,
+        subidoEn: "2026-11-11T10:06:00-03:00",
+        subidoPor: "Javiera Morales",
+        estadoRevision: "noSirve",
+        resumen: "Imagen de baja resolución; no se distinguen montos ni emisor.",
+        datosClave: "",
+        resumenEditado: false,
+        motivoRechazo: "ilegible",
+        reemplazoSolicitado: true,
+        revisadoPor: "Javiera Morales",
+        revisadoEn: "2026-11-11T10:30:00-03:00",
+      },
+      {
+        id: "doc-10",
+        clienteId: "cli-3",
+        nombre: "Epicrisis.pdf",
+        tipoDocumento: "sinClasificar",
+        formato: "pdf",
+        tamanoKb: 420,
+        subidoEn: "2026-11-12T11:58:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "procesando",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+      {
+        id: "doc-11",
+        clienteId: "cli-4",
+        nombre: "Finiquito_firmado.pdf",
+        tipoDocumento: "finiquito",
+        formato: "pdf",
+        tamanoKb: 655,
+        subidoEn: "2026-11-08T15:30:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "sirve",
+        resumen:
+          "Finiquito ratificado ante notario con reserva de derechos escrita a mano. Paga vacaciones proporcionales, pero no incluye indemnización por años de servicio.",
+        datosClave:
+          "Empleador: Transportes del Sur Ltda.\nFecha ratificación: 05-11-2026\nMonto pagado: $1.146.300\nReserva de derechos: Sí\nAños de servicio: 6",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+        revisadoPor: "Tomás Reyes",
+        revisadoEn: "2026-11-08T16:00:00-03:00",
+      },
+      {
+        id: "doc-12",
+        clienteId: "cli-4",
+        nombre: "Certificado_AFP_2019.pdf",
+        tipoDocumento: "certificado",
+        formato: "pdf",
+        tamanoKb: 180,
+        subidoEn: "2026-11-08T15:31:00-03:00",
+        subidoPor: "Tomás Reyes",
+        estadoRevision: "porRevisar",
+        resumen:
+          "Certificado de cotizaciones previsionales emitido en 2019. Solo cubre hasta diciembre de 2018, por lo que no acredita las cotizaciones de los últimos años de la relación laboral.",
+        datosClave:
+          "AFP: AFP Cordillera\nEmisión: 14-01-2019\nPeríodo: 2016–2018\nAlerta: No cubre 2019–2026",
+        resumenEditado: false,
+        reemplazoSolicitado: false,
+      },
+    ],
+  },
+};

@@ -1,0 +1,60 @@
+{
+  "version": "2.0.0",
+  "generatedAt": "2026-11-12T13:45:09.471Z",
+  "architecture": "layer",
+  "world": "mixto",
+  "registry": {
+    "package": "@lexydesign/registry",
+    "cdn": "https://cdn.jsdelivr.net/npm/@lexydesign/registry"
+  },
+  "componentImportPattern": "@/components/base/{Component}",
+  "paths": {
+    "components": "src/components/base",
+    "hooks": "src/hooks",
+    "services": "src/services",
+    "lib": "src/lib",
+    "views": "src/views"
+  },
+  "prototype": {
+    "dataContractVersion": "1",
+    "dataContractPath": "src/prototype/data-contract/prototype-data-contract.ts",
+    "runtimeVersion": "1",
+    "mockStorePath": "src/prototype/mock-store/mock-store.ts",
+    "fixturesPath": "src/prototype/mock-store/fixtures.ts",
+    "portsPath": "src/prototype/ports/index.ts",
+    "designerPanelVersion": "1",
+    "designerPanelPath": "src/prototype/designer-panel/PrototypeDesignerPanel.tsx",
+    "designerActivityStorePath": "src/prototype/designer-panel/designer-activity.ts"
+  },
+  "installed": {
+    "crm-app-layout": "0.1.38",
+    "app-sidebar": "0.1.38",
+    "avatar": "0.1.38",
+    "sidebar": "0.1.38",
+    "button": "0.1.38",
+    "input": "0.1.38",
+    "separator": "0.1.38",
+    "sheet": "0.1.38",
+    "skeleton": "0.1.38",
+    "tooltip": "0.1.38",
+    "use-is-mobile": "0.1.38",
+    "logo": "0.1.38",
+    "crm-desk": "0.1.38",
+    "pagination": "0.1.38",
+    "status-dot": "0.1.38",
+    "table": "0.1.38",
+    "app-dialog": "0.1.38",
+    "dialog": "0.1.38",
+    "textarea": "0.1.38",
+    "select": "0.1.38",
+    "radio-group": "0.1.38",
+    "label": "0.1.38",
+    "tag": "0.1.38",
+    "empty": "0.1.38",
+    "toaster": "0.1.38",
+    "checkbox": "0.1.38",
+    "scroll-area": "0.1.38",
+    "badge": "0.1.38",
+    "tabs": "0.1.38"
+  }
+}
